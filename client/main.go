@@ -13,14 +13,16 @@ import (
 )
 
 var endpoint = flag.String("endpoint", "ws://localhost:9999/", "server endpoint")
+var port = flag.Int("port", 9999, "server port")
 
 func main() {
+	flag.Parse()
 	fmt.Print("enter name: ")
 	var name string
 	fmt.Scanln(&name)
 	name = strings.TrimSpace(name)
 
-	url := fmt.Sprintf("%s?name=%s", *endpoint, name)
+	url := fmt.Sprintf("%s:%d?name=%s", *endpoint, *port, name)
 	ws, resp, err := websocket.DefaultDialer.Dial(url, nil)
 	if err != nil {
 		fmt.Printf("could not connect to server: %v\n", err)
